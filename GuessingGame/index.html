@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Gueesing Gamae</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+		<div id='newUser' style='visibility: hidden'>Guess a number between 1 and 100</div>
+		<div id='oldUser' style='visibility: hidden'>You guessed wrong. Try again.</div>
+	
+        <script>
+			//console.log(document.cookie);
+			let node;
+			if(document.cookie == '1'){
+				node = document.getElementById('oldUser')
+			}
+			else{
+				node = document.getElementById('newUser')
+			}
+			node.style.visibility = 'visible';
+		</script>
+		
+		<div>What's your guess? 
+		<form><input type="number" min='1' max='100'><input type="submit"></form>
+		</div>
+    </body>
+</html>
