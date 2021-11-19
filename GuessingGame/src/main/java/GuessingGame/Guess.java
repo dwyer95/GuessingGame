@@ -13,26 +13,25 @@ import java.util.Random;
  */
 public class Guess {
     int number;
-    //int userGuess;
+    int userGuess;
     int numOfGuesses;
+    String cookie;
     
-    public static void main(String[] args){
-        
+    public Guess(){
         Random rng = new Random();
-        setNumber(0);
-        int number = rng.nextInt(100) + 1;
-        userGuess = 0;
-        
-        startGame();
-                
-        
+        setNumber(rng.nextInt(100) + 1);
+    }
+    
+       public void startGame(){  //(int numberOfGuesses, int userGuess, int number){
+           userGuess = 0;
+           setNumOfGuesses(0);
         
         while(true){
             //keep comparing user guess to number
             
             
             //player guesse number
-            if(userGuess == number){
+            if(userGuess == getNumber()){
                 // send something to server??
             }
             else{
@@ -41,16 +40,12 @@ public class Guess {
         }
     }
     
-    public void startGame(){
-        setNumOfGuesses(0);
-    }
-    
     public int getNumber(){
         return number;
     }
     
-    public void setNumber(){
-        
+    public void setNumber(int number){
+        this.number = number;
     }
     
     public int getUserGuess(){
@@ -58,7 +53,7 @@ public class Guess {
     }
     
     public void setUserGuess(){
-        
+       
     }
     
     public int getNumOfGuesses(){
@@ -67,5 +62,26 @@ public class Guess {
     
     public void setNumOfGuesses(int num){
         numOfGuesses = num;
+    }
+    
+    public void setUserGuess(int userGuess){
+        this.userGuess = userGuess;
+    }
+    
+    public String compare(){
+        String result = "";
+        if (userGuess > number){
+            result = "lower";
+        }
+        else if (userGuess < number){
+            result= "higher";
+        }
+        else if (userGuess == number){
+            result = "win";
+        }
+        else {
+            result = "something is wrong";
+        }
+        return result;
     }
 }
