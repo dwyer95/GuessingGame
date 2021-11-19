@@ -15,9 +15,10 @@ public class Guess {
     int number;
     int userGuess;
     int numOfGuesses;
-    String cookie;
+    int userId;
     
-    public Guess(){
+    public Guess(int userId){
+        this.userId = userId;
         Random rng = new Random();
         setNumber(rng.nextInt(100) + 1);
     }
