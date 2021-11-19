@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
 
@@ -29,9 +30,11 @@ public class Server {
 	System.out.println("Creating Serversocket");
 	ServerSocket ss = new ServerSocket(7070);
         boolean ispost = false;
-        Guess guessSession = new Guess();
+   //     Guess guessSession = new Guess();
         Random rng = new Random();
-        guessSession.setNumber(rng.nextInt(100) + 1);
+     //   guessSession.setNumber(rng.nextInt(100) + 1);
+        int userId = 1;
+        ArrayList<Guess> sessionList = new ArrayList<Guess>();
                 
 	while(true){
 	    System.out.println("Waiting for client...");
@@ -80,8 +83,8 @@ public class Server {
             if (ispost){
                 int number = Integer.parseInt(numstr);
                 System.out.println("Number " + number);
-                guessSession.setUserGuess(number);
-                comparison = guessSession.compare();
+          //      guessSession.setUserGuess(number);
+          //      comparison = guessSession.compare();
                 System.out.println("Comparison string " + comparison);
             }
             
@@ -96,7 +99,8 @@ public class Server {
             
          //   Guess game = new Guess();
             
-	    
+            
+         
 	    PrintStream response =
 		new PrintStream(s.getOutputStream());
 	    response.println("HTTP/1.1 200 OK");
@@ -107,12 +111,38 @@ public class Server {
 		response.println("Content-Type: image/gif");
 	    
             
-	    response.println("Set-Cookie: numOfGuesses=0"); //Remove date to make it a session-cookie
-            response.println("Set-Cookie: lastGuess=0");
+	    response.println("Set-Cookie: userId="+userId); //Remove date to make it a session-cookie
+     //       response.println("Set-Cookie: lastGuess=0");
             if (ispost){
-             response.println("Set-Cookie: result=" + comparison);      
+       //      response.println("Set-Cookie: result=" + comparison);      
             }
             //  "; expires=Wednesday,31-Dec-21 21:00:00 GMT"
+            
+            System.out.println("Session List is " + sessionList.size());
+             System.out.println("Session List string " + sessionList.toString());
+            
+            if (sessionList.isEmpty()){
+                System.out.println("session size = 0");
+                Guess guessSession = new Guess(userId);
+                sessionList.add(guessSession);
+                userId++;
+            } else {
+                System.out.println("Skipped session size = 0");
+                //If-statement always true; PROBLEM
+                if(userId > sessionList.get(sessionList.size()-1).userId){
+                    Guess guessSession = new Guess(userId);
+                      sessionList.add(guessSession);
+                      userId++;
+                    
+                    //Den kan hämta cookien och kolla vilken användare det är
+                    //Så om den får cookie 2, så ska den kolla igenom listan
+                    //och kolla om användare 2 finns.
+                }
+                    
+                Guess guessSession = new Guess(userId);
+            
+                sessionList.add(guessSession);
+            }
             
 	    response.println();
             if(!("/favicon.ico".equals(requestedDocument))){ // Ignore any additional request to retrieve the bookmark-icon.
@@ -133,5 +163,7 @@ public class Server {
         }
     }
     
+
+
 
 
