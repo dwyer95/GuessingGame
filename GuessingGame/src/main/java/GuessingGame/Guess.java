@@ -16,29 +16,20 @@ public class Guess {
     int userGuess;
     int numOfGuesses;
     int userId;
+    String result;
     
     public Guess(int userId){
         this.userId = userId;
+        setNumOfGuesses(0);
+        setUserGuess(0);
         Random rng = new Random();
         setNumber(rng.nextInt(100) + 1);
     }
     
-       public void startGame(){  //(int numberOfGuesses, int userGuess, int number){
-           userGuess = 0;
-           setNumOfGuesses(0);
-        
-        while(true){
-            //keep comparing user guess to number
-            
-            
-            //player guesse number
-            if(userGuess == getNumber()){
-                // send something to server??
-            }
-            else{
-                // set guessNumber to 
-            }
-        }
+    public void runGame(int userGuess){  //(int numberOfGuesses, int userGuess, int number){
+        setUserGuess(userGuess);
+        compare();   
+        setNumOfGuesses(++numOfGuesses);
     }
     
     public int getNumber(){
@@ -53,8 +44,8 @@ public class Guess {
         return userGuess;
     }
     
-    public void setUserGuess(){
-       
+    public void setUserGuess(int userGuess){
+       this.userGuess = userGuess;
     }
     
     public int getNumOfGuesses(){
@@ -62,27 +53,26 @@ public class Guess {
     }
     
     public void setNumOfGuesses(int num){
-        numOfGuesses = num;
+        this.numOfGuesses = num;
     }
     
-    public void setUserGuess(int userGuess){
-        this.userGuess = userGuess;
+    public String getResult(){
+        return result;
     }
     
-    public String compare(){
-        String result = "";
+    public void compare(){
+        //this.result = "";
         if (userGuess > number){
-            result = "lower";
+            this.result = "lower";
         }
         else if (userGuess < number){
-            result= "higher";
+            this.result= "higher";
         }
         else if (userGuess == number){
-            result = "win";
+            this.result = "win";
         }
         else {
-            result = "something is wrong";
+            this.result = "something is wrong";
         }
-        return result;
     }
 }
