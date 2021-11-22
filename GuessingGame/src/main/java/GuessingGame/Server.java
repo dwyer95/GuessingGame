@@ -30,15 +30,17 @@ public class Server {
 	System.out.println("Creating Serversocket");
 	ServerSocket ss = new ServerSocket(7070);
         boolean ispost = false;
-   //     Guess guessSession = new Guess();
+   //     Guess guessSession;
         Random rng = new Random();
      //   guessSession.setNumber(rng.nextInt(100) + 1);
         int userId = 1;
         ArrayList<Guess> sessionList = new ArrayList<Guess>();
         int cookie;// = 0;
         boolean hasCookie;
+        Guess gSession = null;
                 
 	while(true){
+   //         System.out.println("First line in while-loop. userId is " + userId);
             hasCookie= false;
             cookie = 0;
 	    System.out.println("Waiting for client...");
@@ -52,7 +54,7 @@ public class Server {
            
                 if (str.contains("POST")){
                     ispost = true;
-                    System.out.println("--------------------testing first---------------------");
+   //                 System.out.println("--------------------testing first---------------------");
                     
                 }
                 
@@ -86,7 +88,7 @@ public class Server {
                // System.out.println("New " + request.readLine());
                  System.out.print((char)c);
                  guess = (char)c;
-                 System.out.println("Guess in loop: " + guess);
+            //     System.out.println("Guess in loop: " + guess);
                  if (i > 6){
                      sb.append(guess);
                  }
@@ -94,15 +96,15 @@ public class Server {
             }
             String comparison = "";
             numstr=sb.toString();
-            System.out.println("Guess " + guess);
-            System.out.println("Numstr " + numstr);
+        //    System.out.println("Guess " + guess);
+         //   System.out.println("Numstr " + numstr);
             int userGuess = -1;
             if (ispost){
                 userGuess = Integer.parseInt(numstr); // guess string
-                System.out.println("Number " + userGuess);
+           //     System.out.println("Number " + userGuess);
             //guessSession.setUserGuess(number);
             //comparison = guessSession.compare();
-                System.out.println("Comparison string " + comparison);
+         //       System.out.println("Comparison string " + comparison);
             }
             
         
@@ -121,40 +123,42 @@ public class Server {
             
             
             if (sessionList.isEmpty()){
-                System.out.println("session size = 0");
+        //        System.out.println("session size = 0");
                 Guess guessSession = new Guess(userId);
                 sessionList.add(guessSession);
                 //userId++;
             } else {
-                System.out.println("Skipped session size = 0");
+       //         System.out.println("Skipped session size = 0");
                 //If-statement always true; PROBLEM
-                // kollar vilken userID p� cookien: om finns, h�mtas dess session
+                // kollar vilken userID på cookien: om finns, hämtas dess session
                 // om inte finns, skapas ny session
                 
                 //if(cookie != sessionList.get(sessionList.size()-1).userId){
                 if(!hasCookie){
-                    System.out.println("Vafan " + cookie + " �r");
-                    System.out.println("Vafan " + sessionList.get(sessionList.size()-1).userId + " �r");
+            //        System.out.println("Vafan " + cookie + " är");
+            //        System.out.println("Vafan " + sessionList.get(sessionList.size()-1).userId + " är");
                     Guess guessSession = new Guess(userId);
                     sessionList.add(guessSession);
                       //userId++;
                     
-                    //Den kan h�mta cookien och kolla vilken anv�ndare det �r
-                    //S� om den f�r cookie 2, s� ska den kolla igenom listan
-                    //och kolla om anv�ndare 2 finns.
+                    //Den kan hämta cookien och kolla vilken användare det är
+                    //Så om den får cookie 2, så ska den kolla igenom listan
+                    //och kolla om användare 2 finns.
                 }
                 else{
                     
                     for(Guess sessions : sessionList){
-                        if(cookie == sessions.userId){
-                            System.out.println("returning user");
+                        if(cookie == sessions.userId && !("/favicon.ico".equals(requestedDocument))){
+                   //         System.out.println("returning user");
                             sessions.runGame(userGuess);
                             result = sessions.getResult();
                             System.out.println("result: " + result);
                             numOfGuesses = sessions.getNumOfGuesses();
                             System.out.println("num of guesses: " + numOfGuesses);
-                            userId = sessions.userId;
+                       //     userId = sessions.userId;
                             System.out.println("user ID: " + userId);
+                            gSession = sessions;
+  
                         }
                     }
                 }
@@ -175,7 +179,9 @@ public class Server {
 	    
             if(!hasCookie){
                 response.println("Set-Cookie: userId="+userId); //Remove date to make it a session-cookie
+                System.out.println("Setting cookie. UserId is before " + userId);
                 userId++;
+                System.out.println("Setting cookie. UserId is after " + userId);
             }//     response.println("Set-Cookie: lastGuess=0");
             if (ispost){
        //      response.println("Set-Cookie: result=" + comparison);      
@@ -190,7 +196,14 @@ public class Server {
             // here lied session processing etc
              
             
-            //response.println("Message: "+result);
+            response.println("Message: "+result);
+            
+            //TODO. Result sätts till "none" i början av while-loopen.
+            //Men om man hämtar result från Guesslcass istället borde det kanske funka
+            //Bara att man får tänka på ordningen, så att en guessclass
+            //faktiskt har skapats när man anropar getResult
+            //som kanske måste läggas till
+            System.out.println("----------------------------------" + result);
             
             
             
@@ -199,7 +212,7 @@ public class Server {
             if(!("/favicon.ico".equals(requestedDocument))){ // Ignore any additional request to retrieve the bookmark-icon.
                 
                 
-                if(cookie == 0){
+                if((cookie == 0) && ((result.equals("newgame") || (result.equals("none"))))){
                     File f = new File("."+requestedDocument);
                     //System.out.println(f.getAbsolutePath()); //requestedDocument
                     //System.out.println("req doc: " + requestedDocument);
@@ -216,16 +229,20 @@ public class Server {
                     response.println("<body><div>You made it in " + numOfGuesses + " guesses. Press button to try again.</div>"
                             + "<form action=\"index.html\" method=\"POST\"><input name=\"btn\" type=\"submit\"></form></body>");
                     response.println("</html>");
+                    gSession.resetGame();
+                    System.out.println("Game is reset: " + gSession.getNumOfGuesses() + gSession.getResult());
+                    
                 }
                 else {
                     response.println("<html>");
                     response.println("<head><title>Guessing Game</title><meta charset=\"windows-1252\">"
                             + "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head>");
-                    response.println("<body><div>Wrong answer. You have made " + numOfGuesses + " guesses. Press button to try again.</div>"
+                    response.println("<body><div>Wrong answer. Try " + result +  ". You have made " + numOfGuesses + " guesses. Press button to try again.</div>"
                             + "<div>What's your guess?<form action=\"index.html\" method=\"POST\">"
                             + "<input type=\"number\" min='1' max='100' value='5' name=\"number\"><input name=\"btn\" type=\"submit\">"
                             + "</form></body>");
                     response.println("</html>");
+                  //  gSession.resetGame();
                 }
                 
                 
@@ -237,3 +254,6 @@ public class Server {
             }
         }
     }
+    
+
+
