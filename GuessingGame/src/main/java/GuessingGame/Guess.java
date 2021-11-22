@@ -24,12 +24,14 @@ public class Guess {
         setUserGuess(0);
         Random rng = new Random();
         setNumber(rng.nextInt(100) + 1);
+        this.result = "newgame";
     }
     
     public void runGame(int userGuess){  //(int numberOfGuesses, int userGuess, int number){
         setUserGuess(userGuess);
         compare();   
         setNumOfGuesses(++numOfGuesses);
+        System.out.println("Number of guesses " + numOfGuesses + " userId: " + userId);
     }
     
     public int getNumber(){
@@ -74,5 +76,13 @@ public class Guess {
         else {
             this.result = "something is wrong";
         }
+    }
+    
+    public void resetGame(){
+        setNumOfGuesses(0);
+        setUserGuess(0);
+        Random rng = new Random();
+        setNumber(rng.nextInt(100) + 1);
+        this.result = "newgame";
     }
 }
