@@ -6,28 +6,18 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Gueesing Gamae</title>
+        <title>Guessing Game</title>
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-		<div id='newUser' style='visibility: hidden'>Guess a number between 1 and 100</div>
-		<div id='oldUser' style='visibility: hidden'>You guessed wrong. Try again.</div>
+		<div>Guess a number between 1 and 100</div>
 	
-        <script>
-			//console.log(document.cookie);
-			let node;
-			if(document.cookie == '1'){
-				node = document.getElementById('oldUser')
-			}
-			else{
-				node = document.getElementById('newUser')
-			}
-			node.style.visibility = 'visible';
-		</script>
 		
 		<div>What's your guess? 
-		<form><input type="number" min='1' max='100'><input type="submit"></form>
+            <form action="index.html" method="POST">
+            <input type="number" min='1' max='100' value='5' name="number"><input name="btn" type="submit"></form>
+		<!--<form><input type="number" min='1' max='100'><input type="submit"></form>!-->
 		</div>
     </body>
 </html>
