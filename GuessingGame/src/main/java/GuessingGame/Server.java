@@ -129,20 +129,20 @@ public class Server {
             } else {
        //         System.out.println("Skipped session size = 0");
                 //If-statement always true; PROBLEM
-                // kollar vilken userID p√• cookien: om finns, h√§mtas dess session
+                // kollar vilken userID pÂ cookien: om finns, h‰mtas dess session
                 // om inte finns, skapas ny session
                 
                 //if(cookie != sessionList.get(sessionList.size()-1).userId){
                 if(!hasCookie){
-            //        System.out.println("Vafan " + cookie + " √§r");
-            //        System.out.println("Vafan " + sessionList.get(sessionList.size()-1).userId + " √§r");
+            //        System.out.println("Vafan " + cookie + " ‰r");
+            //        System.out.println("Vafan " + sessionList.get(sessionList.size()-1).userId + " ‰r");
                     Guess guessSession = new Guess(userId);
                     sessionList.add(guessSession);
                       //userId++;
                     
-                    //Den kan h√§mta cookien och kolla vilken anv√§ndare det √§r
-                    //S√• om den f√•r cookie 2, s√• ska den kolla igenom listan
-                    //och kolla om anv√§ndare 2 finns.
+                    //Den kan h‰mta cookien och kolla vilken anv‰ndare det ‰r
+                    //SÂ om den fÂr cookie 2, sÂ ska den kolla igenom listan
+                    //och kolla om anv‰ndare 2 finns.
                 }
                 else{
                     
@@ -199,11 +199,11 @@ public class Server {
             
             response.println("Message: "+result);
             
-            //TODO. Result s√§tts till "none" i b√∂rjan av while-loopen.
-            //Men om man h√§mtar result fr√•n Guesslcass ist√§llet borde det kanske funka
-            //Bara att man f√•r t√§nka p√• ordningen, s√• att en guessclass
-            //faktiskt har skapats n√§r man anropar getResult
-            //som kanske m√•ste l√§ggas till
+            //TODO. Result s‰tts till "none" i bˆrjan av while-loopen.
+            //Men om man h‰mtar result frÂn Guesslcass ist‰llet borde det kanske funka
+            //Bara att man fÂr t‰nka pÂ ordningen, sÂ att en guessclass
+            //faktiskt har skapats n‰r man anropar getResult
+            //som kanske mÂste l‰ggas till
       //      System.out.println("----------------------------------" + result);
             
             
