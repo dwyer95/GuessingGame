@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GuessingGame;
 
 import java.util.Random;
 
 /**
  *
- * @author HP
+ * @author Jacob Dwyer, Sara Bertse
  */
 public class Guess {
     int number;
@@ -27,7 +22,7 @@ public class Guess {
         this.result = "newgame";
     }
     
-    public void runGame(int userGuess){  //(int numberOfGuesses, int userGuess, int number){
+    public void runGame(int userGuess){
         setUserGuess(userGuess);
         compare();   
         setNumOfGuesses(++numOfGuesses);
@@ -63,7 +58,6 @@ public class Guess {
     }
     
     public void compare(){
-        //this.result = "";
         if (userGuess > number){
             this.result = "lower";
         }

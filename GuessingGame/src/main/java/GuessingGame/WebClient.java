@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GuessingGame;
 
 import java.io.BufferedReader;
@@ -16,7 +11,7 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author HP
+ * @author Jacob Dwyer, Sara Bertse
  */
 public class WebClient {
     
@@ -33,7 +28,6 @@ public class WebClient {
         boolean gameWon = false;
                 
         while (!gameWon) {
-        //for(int j = 0; j < 3; j++){
             try {
                 //Sends request
                 u = new URL("http://127.0.0.1:7070/index.html"); //https://www.kth.se
@@ -43,38 +37,21 @@ public class WebClient {
                     h.setRequestMethod("POST");
                     h.setRequestProperty("Set-Cookie", "userId=" +cookie);
                     h.setDoOutput(true);
-
-                    //String state = "";
-                    
                     
                     if (state.equals("higher")) {
-                        if (helper / 2 < 1) {
-                            helper = 1;
-                        } else {
-                            helper = helper / 2;
-                        }
+                        if (helper / 2 < 1) { helper = 1; } 
+                        else { helper = helper / 2; }
 
                         guess = (guess + helper);
                     } else if (state.equals("lower")) {
-                        if (helper / 2 < 1) {
-                            helper = 1;
-                        } else {
-                            helper = helper / 2;
-                        }
+                        if (helper / 2 < 1) { helper = 1; } 
+                        else { helper = helper / 2; }
 
                         guess = guess - helper;
 
-                    } else if (state.equals("win")) {
-                        //gameWon = true;
-                        break;
-                    } else {
-                        //gameWon = true;
-                        //System.out.println("Game interrupted: error");
-                        //break;
-
+                    } else if(state.equals("win")){ 
+                        break; 
                     }
-                    
-                    System.out.println("uesr guess: " + guess);
 
                     OutputStream os = h.getOutputStream();
                     OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");    
@@ -82,7 +59,6 @@ public class WebClient {
                     osw.flush();
                     osw.close();
                     os.close();
-                    System.out.println("cookie to server: " +cookie);
                 }
                 h.connect();
 
@@ -91,7 +67,6 @@ public class WebClient {
                 //Den tredje headern är userId=value cookien
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < h.getHeaderFields().size(); i++) {
-                    //cookie=(h.getHeaderField(i));
                     sb.append(h.getHeaderField(i));
                     System.out.println(h.getHeaderField(i));
                 }
@@ -99,28 +74,14 @@ public class WebClient {
                 String srvResponse = sb.toString();
                 if(srvResponse.contains("userId")){
                     String cookieStr = (h.getHeaderField(3));
-                    System.out.println("cookieStr: " + cookieStr);
                     StringTokenizer tokens = new StringTokenizer(cookieStr, " =");
                     tokens.nextToken();
                     cookie = tokens.nextToken();
-                    System.out.println("the cookie: "+cookie);
                     hasCookie=true;
                 } else if(srvResponse.contains("lower") || srvResponse.contains("higher")
                         || srvResponse.contains("win")){
                     state = (h.getHeaderField(3));
-                    System.out.println("stateStr: " + state);
-                    //StringTokenizer tokens = new StringTokenizer(stateeStr, " =");
-                    //tokens.nextToken();
-                    //cookie = tokens.nextToken();
-                    //System.out.println("the cookie: "+cookie);
-                    //hasCookie=true;
                 }
-
-                
-                //Denna kan man använda för att skicka en POST
-                //h.setRequestMethod("POST");
-                //h.getHeaderField(name)
-                
                 
                 is = h.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -128,12 +89,6 @@ public class WebClient {
                 while ((str = br.readLine()) != null) {
                     System.out.println(str);
                 }
-                
-                
-                
-                
-                //int test = 25;
-                //System.out.println(test/2);
                 
             } catch (java.net.MalformedURLException e) {
                 System.out.println(e.getMessage());
