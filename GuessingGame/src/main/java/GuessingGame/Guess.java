@@ -1,64 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package GuessingGame;
 
 import java.util.Random;
 
 /**
  *
- * @author HP
+ * @author Jacob Dwyer, Sara Bertse
  */
 public class Guess {
     int number;
-    //int userGuess;
+    int userGuess;
     int numOfGuesses;
+    int userId;
+    String result;
     
-    public static void main(String[] args){
-        
+    public Guess(int userId){
+        this.userId = userId;
+        setNumOfGuesses(0);
+        setUserGuess(0);
         Random rng = new Random();
-        setNumber(0);
-        int number = rng.nextInt(100) + 1;
-        userGuess = 0;
-        
-        startGame();
-                
-        
-        
-        while(true){
-            //keep comparing user guess to number
-            
-            
-            //player guesse number
-            if(userGuess == number){
-                // send something to server??
-            }
-            else{
-                // set guessNumber to 
-            }
-        }
+        setNumber(rng.nextInt(100) + 1);
+        this.result = "newgame";
     }
     
-    public void startGame(){
-        setNumOfGuesses(0);
+    public void runGame(int userGuess){
+        setUserGuess(userGuess);
+        compare();   
+        setNumOfGuesses(++numOfGuesses);
+        System.out.println("Number of guesses " + numOfGuesses + " userId: " + userId);
     }
     
     public int getNumber(){
         return number;
     }
     
-    public void setNumber(){
-        
+    public void setNumber(int number){
+        this.number = number;
     }
     
     public int getUserGuess(){
         return userGuess;
     }
     
-    public void setUserGuess(){
-        
+    public void setUserGuess(int userGuess){
+       this.userGuess = userGuess;
     }
     
     public int getNumOfGuesses(){
@@ -66,6 +50,33 @@ public class Guess {
     }
     
     public void setNumOfGuesses(int num){
-        numOfGuesses = num;
+        this.numOfGuesses = num;
+    }
+    
+    public String getResult(){
+        return result;
+    }
+    
+    public void compare(){
+        if (userGuess > number){
+            this.result = "lower";
+        }
+        else if (userGuess < number){
+            this.result= "higher";
+        }
+        else if (userGuess == number){
+            this.result = "win";
+        }
+        else {
+            this.result = "something is wrong";
+        }
+    }
+    
+    public void resetGame(){
+        setNumOfGuesses(-1);
+        setUserGuess(0);
+        Random rng = new Random();
+        setNumber(rng.nextInt(100) + 1);
+        this.result = "newgame";
     }
 }

@@ -17,7 +17,7 @@ import java.net.Socket;
 public class Client {
     public static void main(String[] args) throws Exception{
 	String host = "127.0.0.1"; //www.apache.org
-	int port = 8080; //80
+	int port = 7070; //80
 	String file = "index.html";
 	Socket s =
 	    new Socket(host,port);

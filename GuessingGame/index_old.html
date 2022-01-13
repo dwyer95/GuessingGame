@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Gueesing Gamae</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+		<div id='newUser' style='visibility: hidden'>Guess a number between 1 and 100. New version3</div>
+		<div id='oldUser' style='visibility: hidden'>You guessed wrong. Try again.</div>
+		<div id="guessHigher" style='visibility: hidden'>Nope, guess higher. Try again.</div>
+		<div id="guessLower" style='visibility: hidden'>Nope, guess lower. Try again.</div>
+		<div id="win" style='visibility: hidden'>You made it in x guesses. Press button to try again.</div>
+	
+        <script>
+			//console.log(document.cookie);
+			let node;
+			const result = document.cookie.split('=')
+			const resultString = result[3];
+			if(document.cookie == '1'){
+				node = document.getElementById('oldUser')
+			}else if(resultString == "lower"){
+				node = document.getElementById('guessLower')
+			}else if(resultString == "higher"){
+				node = document.getElementById('guessHigher')
+			}else if(resultString == "win"){
+				node = document.getElementById('win')
+			//	document.getElementsByClassName("ongoing").style.visibility='hidden';
+			}else{
+				node = document.getElementById('newUser')
+			}
+
+			node.style.visibility = 'visible';
+		</script>
+		
+		<div class="ongoing">What's your guess? 
+		<form action="index.html" method="POST"><input type="number" min='1' max='100' value='5' name="number"><input name="btn" type="submit"></form>
+		</div>
+    </body>
+</html>
