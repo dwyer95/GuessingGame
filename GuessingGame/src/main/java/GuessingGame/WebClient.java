@@ -64,7 +64,7 @@ public class WebClient {
 
                 //Rcvs response in h
                 
-                //Den tredje headern Ã¤r userId=value cookien
+                //Den tredje headern är userId=value cookien
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < h.getHeaderFields().size(); i++) {
                     sb.append(h.getHeaderField(i));

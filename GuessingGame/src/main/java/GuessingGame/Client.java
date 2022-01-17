@@ -12,7 +12,7 @@ import java.net.Socket;
 
 /**
  *
- * @author HP
+ * @author Jacob Dwyer, Sara Bertse
  */
 public class Client {
     public static void main(String[] args) throws Exception{

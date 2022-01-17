@@ -73,7 +73,7 @@ public class Guess {
     }
     
     public void resetGame(){
-        setNumOfGuesses(-1);
+        setNumOfGuesses(0); //-1
         setUserGuess(0);
         Random rng = new Random();
         setNumber(rng.nextInt(100) + 1);
